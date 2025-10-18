@@ -1,0 +1,22 @@
+### To Do
+
+- [x] Byte Address Memory
+    - [x] Create the new data memory module
+    - [x] Add the MemWriteCtr
+    - [ ] l signal based on `funct3` when the memory is completed
+    - [x] Add into pipelined cpu
+    - [x] Test instruction
+- [x] Paramaterised MUXs
+- [x] Implement `lui`
+- [x] Change PCSel logic to new on for pipelinig
+- [x] Test reference program 
+  - [x] on the single cycle cpu
+  - [x] on the pipelined cpu
+- [x] Cache Memory
+  - [x] Add Cache to single cycle
+- [x] Memory Mapping??
+  - [x] Change pc to 12 bits
+- [x] Add stalling to hazard unit
+- [x] Add data fowarding
+- [x] Include the .vcd results from successful runs of the programs
+- [x] Finalise version of the f1 program
