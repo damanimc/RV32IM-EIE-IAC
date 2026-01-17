@@ -1,20 +1,40 @@
+RV32IM Pipelined CPU with Cache Memory
 
-
-Personal work for pipelined RV32IM CPU with Cache Memory for Instruction Architectures & Compiler's course @ Imperial College which received an A*. 
-
-Tested the CPU with the provided reference program and created own version of the f1 light sequence program. Both programs have been verified to work on both the single cyles and pipelined version of the CPU. Also tested `mul`,`div` and `rem`instructions with a multi-cycle implementation.
+This repository contains a implementation of a pipelined RV32IM CPU, developed as part of the Instruction Architectures & Compilers course at Imperial College London.
 
 CPU is demonstrated by the following gifs.![Alt text](images/Pipelined%20F1.gif)
 ![Alt text](images/Pipelined%20Ref.gif)
 
-Updates:
-- Added logic to the [Control Unit] and [ALU] for `jalr`, `lui`, `auipc`, `blt`, `bge`, `bltu`, `bgeu`, changed `aluCtrl` encoding and tested the instructions.
-- Created, modified and tested the modules for the pipelined CPU.
-- Wrote a version of the light sequence assembly code to work with `nop` instructions on the pipelined cpu without data hazard detection hardware.
-- Implemented hazard detection in hardware by adding a hazard unit for data [forwarding], [stalling] and [flushing], which allowed the same programs from the single cycle CPU to work on the pipelined.
-- Implemented multi-cycle `mul` ,`div` and `rem` instructions
+The project involved evolving a basic single-cycle processor into a functional 5-stage pipeline, requiring custom hardware solutions for data hazards and multi-cycle arithmetic operations.
 
-What have I learned?
+Technical Features & Updates
 
-- I've learned how to write system verilog code. I've also learned more about control and data hazards. 
-- Last year I made a multiplier on the single-cycle cpu. I know recognise that in real world scenarios this would be a bad idea because it would significantly limit the clock speed. 
+1. Hazard Detection & Resolution
+
+Initially, the pipeline relied on software-level nop padding in assembly to prevent data hazards. I later implemented a hardware Hazard Unit to automate this process.
+
+* Forwarding: Minimizes stalls by passing data directly between pipeline stages.
+* Stalling & Flushing: Handles branch mispredictions and load-use dependencies.
+* Result: This allowed the pipelined CPU to execute the same reference binaries as the single-cycle version without manual modification.
+
+2. Expanded Instruction Support
+
+I extended the [Control Unit] and [ALU] to support the full RV32IM base set plus extensions:
+
+* Control Flow: Implemented jalr, lui, auipc, and branch comparisons (blt, bge, bltu, bgeu).
+* Encoding: Re-engineered the aluCtrl encoding to accommodate the expanded instruction set and verified via logic simulation.
+
+3. Multi-Cycle Arithmetic
+
+While my previous designs used single-cycle multipliers, I recognized that this significantly caps the maximum clock frequency (Fmax​) due to long critical paths.
+
+* Implemented multi-cycle mul, div, and rem instructions.
+* This trade-off ensures that the CPU can maintain a higher overall clock speed while still handling complex arithmetic.
+
+Verification & Testing
+
+The CPU was verified using two primary methods:
+
+1. Reference Program: A standard benchmark to ensure ISA compliance.
+2. F1 Light Sequence: A custom assembly program written to test real-time logic and timing.
+
